@@ -12,11 +12,11 @@ def resnet20(inpt):
         conv2 = residual_block(conv2_1, 16, False)
 
     with tf.variable_scope("conv3"):
-        conv3_1 = residual_block(conv2, 32, False)
+        conv3_1 = residual_block(conv2, 32, True)
         conv3 = residual_block(conv3_1, 32, False)
 
     with tf.variable_scope("conv4"):
-        conv4_1 = residual_block(conv3, 64, False)
+        conv4_1 = residual_block(conv3, 64, True)
         conv4 = residual_block(conv4_1, 64, False)
 
     with tf.variable_scope("out"):
