@@ -20,6 +20,10 @@ $ source venv/bin/activate
 (venv)$ pip install --upgrade https://storage.googleapis.com/tensorflow/mac/tensorflow-0.6.0-py2-none-any.whl
 ```
 
-If you don't have virtualenv installed, run `pip install virtualenv`.
+If you don't have virtualenv installed, run `pip install virtualenv`. Also, the cifar-10 data for python can be found at: https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz. Place the data in the main directory.
 
-Currently, running `python main.py` starts the training for ResNet-20, saving the progress after training every 512 images.
+Start Training:
+```shell
+(venv)$ python main.py 
+```
+This starts the training for ResNet-20, saving the progress after training every 512 images.
