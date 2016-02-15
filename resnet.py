@@ -18,8 +18,7 @@ def conv_layer(inpt, filter_shape, stride):
     out_channels = filter_shape[3]
 
     filter_ = weight_variable(filter_shape)
-    conv = tf.nn.conv2d(inpt, filter=filter_, strides=[1,stride, stride, 1], padding="SAME")
-    print conv.get_shape().as_list()
+    conv = tf.nn.conv2d(inpt, filter=filter_, strides=[1, stride, stride, 1], padding="SAME")
     mean, var = tf.nn.moments(conv, axes=[0,1,2])
     beta = tf.Variable(tf.zeros([out_channels]), name="beta")
     gamma = weight_variable([out_channels], name="gamma")
