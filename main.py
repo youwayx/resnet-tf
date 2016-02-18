@@ -57,7 +57,11 @@ X = tf.placeholder("float", [batch_size, 32, 32, 3])
 Y = tf.placeholder("float", [batch_size, 10])
 learning_rate = tf.placeholder("float", [])
 
-net = models.resnet20(X)
+# ResNet Models
+net = models.resnet(X, 20)
+# net = models.resnet(X, 32)
+# net = models.resnet(X, 44)
+# net = models.resnet(X, 56)
 
 cross_entropy = -tf.reduce_sum(Y*tf.log(net))
 opt = tf.train.MomentumOptimizer(learning_rate, 0.9)
@@ -77,21 +81,24 @@ if checkpoint:
 else:
     print "Couldn't find checkpoint to restore from. Starting over."
 
-for i in range (0, 50000, batch_size):
-    feed_dict={
-        X: X_train[i:i + batch_size], 
-        Y: Y_train[i:i + batch_size],
-        learning_rate: 0.01}
-    sess.run([train_op], feed_dict=feed_dict)
-    if i % 512 == 0:
-        print "training on image #%d" % i
-        saver.save(sess, 'progress', global_step=i)
+for j in range (10):
+    for i in range (0, 50000, batch_size):
+        feed_dict={
+            X: X_train[i:i + batch_size], 
+            Y: Y_train[i:i + batch_size],
+            learning_rate: 0.001}
+        sess.run([train_op], feed_dict=feed_dict)
+        if i % 512 == 0:
+            print "training on image #%d" % i
+            saver.save(sess, 'progress', global_step=i)
 
 for i in range (0, 10000, batch_size):
-    acc =  sess.run([accuracy],feed_dict={
-        X: X_test[i:i+batch_size],
-        Y: Y_test[i:i+batch_size]
-    })
-    accuracy_summary = tf.scalar_summary("accuracy", accuracy)
+    if i + batch_size < 10000:
+        acc = sess.run([accuracy],feed_dict={
+            X: X_test[i:i+batch_size],
+            Y: Y_test[i:i+batch_size]
+        })
+        accuracy_summary = tf.scalar_summary("accuracy", accuracy)
+        print acc
 
 sess.close()
